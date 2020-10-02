@@ -2,12 +2,13 @@
 import socket
 import tqdm
 import os
+import base64
 
 SEPARATOR = "<SEPARATOR>"
 BUFFER_SIZE = 4096 # send 4096 bytes each time step
 
 # the ip address or hostname of the server, the receiver
-host = "192.168.1.6"    #IP Address of windows PC
+host = "192.168.1.6"    #IP Address of server
 # the port, let's use 5001
 port = 5001
 # the name of file we want to send, make sure it exists
@@ -26,7 +27,7 @@ progress = tqdm.tqdm(range(filesize), f"Sending {filename}", unit="B", unit_scal
 with open(filename, "rb") as f:
     for _ in progress:
         # read the bytes from the file
-        bytes_read = f.read(BUFFER_SIZE)
+        bytes_read = base64.b64encode(f.read(BUFFER_SIZE))
         if not bytes_read:
             # file transmitting is done
             break
@@ -37,3 +38,6 @@ with open(filename, "rb") as f:
         progress.update(len(bytes_read))
 # close the socket
 s.close()
+
+
+#base64.b64encode(img_file.read())
