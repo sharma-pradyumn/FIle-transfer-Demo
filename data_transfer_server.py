@@ -1,6 +1,7 @@
 import socket
 import tqdm
 import os
+import base64
 # device's IP address
 SERVER_HOST = "0.0.0.0" #All IPv4 address on local machine
 SERVER_PORT = 5001
@@ -42,7 +43,7 @@ with open(filename, "wb") as f:
             # file transmitting is done
             break
         # write to the file the bytes we just received
-        f.write(bytes_read)
+        f.write(base64.b64decode(bytes_read))
         # update the progress bar
         progress.update(len(bytes_read))
 
